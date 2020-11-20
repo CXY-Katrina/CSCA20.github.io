@@ -1,0 +1,702 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Lab9</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/moon.css" id="theme">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+		
+		<!-- Style for Fontawesome
+		<link href="/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+		<link rel="stylesheet" href="dist/overwrite.css"> -->
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides"">
+				<section>
+					<h1>Lab 9</h1>
+					<h3>Our second to last tutorial</h3>
+				</section>
+				<section>
+					<h2>Schedule</h2>
+					<ul>
+						<li>Lab 7 solution</li>
+						<li>Review</li>
+						<li>Lab 9</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Lab 7 solution</h2>
+				</section>
+				<section style="height: 100%;">
+					<h2 style="text-align: left;">Lab 7 solution</h2>
+					<pre data-id="code-animation" style="width: 100%; margin: 0; height: 500px"><code class="hljs python" style="font-size: 0.7em;" data-trim data-line-numbers="|1-9|11-26|28-47|49-80|82-105">
+						def move_cursor(f):
+						    '''Given an open file f, reads past its three-line header.
+
+						    Args:
+							f: a freshly opened file in the format of the file alkaline_metals.txt
+						    '''
+						    NUM_HEADER_LINES = 3
+						    for _ in range(NUM_HEADER_LINES):
+							f.readline()
+
+						def list_of_list(f):
+						    '''Reads the contents of alkaline_metals.txt and returns it in a list
+						    of lists, with each inner list containing the name, atomic number, and
+						    atomic weight for an element. (Hint: Use string.split.)
+
+						    Args:
+							f: a freshly opened file in the format of the file alkaline_metals.txt
+						    Hint: 
+							Use split() to create a list of each line
+						    '''
+						    move_cursor(f)
+						    new_list = []
+						    for line in f:
+							lines = line.split()
+							new_list.append(lines)
+						    return new_list
+
+						def sorted_atomic_weights(f):
+						    '''Returns a list containing the three highest atomic weights(represented as
+							floats), in descending order, for all metals.
+						
+						    Args:
+							f: a freshly opened file in the format of the file alkaline_metals.txt
+						    Hint:
+							Use split() to create a list of each line
+							Use sort() function to sort elements of a list
+							Be mindful of the types of data
+							Once you assign melements to a list; you need to use float() function
+							to convert str type to float type. Else, elements won't get sorted
+						    '''
+						    move_cursor(f)
+						    atom_weight = []
+						    for line in f:
+							atoms = line.split()
+							atom_weight.append(float(atoms[2]))
+						    atom_weight.sort(reverse = True)
+						    return atom_weight[0:3]  
+
+						def create_dict(f):
+						    '''Returns a dictionary where key is the name of the metal and value
+						    is the atomic weight.
+
+						    Args:
+							f: a freshly opened file in the format of the file alkaline_metals.txt
+						    Hint:
+							Multiple ways to solve this.
+							One way:
+							Create a list first using list_of_list(f)
+							Then assign first element as key and third element as value
+						    '''
+						    move_cursor(f)
+						    new_list = []
+						    new_dict = {}
+						    for line in f:
+							lines = line.split()
+							new_dict[lines[0]] = lines[2]
+							new_list.append(lines)    
+						    '''
+						    Another solution:
+						    move_cursor(f)
+						    new_list = []
+						    new_dict = {}
+						    for line in f:
+							lines = line.split()
+							new_list.append(lines)
+						    li_item = 0
+						    for li_item in new_list:
+							new_dict[li_item[0]] = li_item[2]
+						    '''
+						    return new_dict
+
+						if __name__ == '__main__':
+						    # put this file in your directory along with this lab file
+						    filename = 'alkaline_metals.txt'
+
+						    # Call the functions and print the results here.
+						    # For example, this will print all the lines of the file other than the
+						    # header.
+						    with open(filename) as f:
+							move_cursor(f)
+							for line in f:
+								print(line.strip())
+							print('--------------------------------')
+							
+						    with open(filename) as f:
+							print(list_of_list(f))
+							print('--------------------------------')
+							
+						    with open(filename) as f:
+							print(sorted_atomic_weights(f))
+							print('--------------------------------')
+							
+						    with open(filename) as f:
+							print(create_dict(f))
+							print('--------------------------------')
+					</code></pre>
+				</section>
+				<section style="height: 100%;">
+					<h2 style="text-align: left;">Common Mistakes</h2>
+					<pre data-id="code-animation" style="width: 100%; margin: 0; height: 500px"><code class="hljs python" style="font-size: 0.7em;" data-trim data-line-numbers="|7,18,19">
+						def list_of_list(f):
+						    '''Reads the contents of alkaline_metals.txt and returns it in a list
+						    of lists, with each inner list containing the name, atomic number, and
+						    atomic weight for an element. (Hint: Use string.split.)
+
+						    Args:
+							f: a freshly opened file in the format of the file alkaline_metals.txt
+						    Hint: 
+							Use split() to create a list of each line
+						    '''
+						    new_list = []
+						    for line in f:
+							lines = line.split()
+							new_list.append(lines)
+						    return new_list
+
+						with open(filename) as f:
+						    move_cursor(f)
+						    print(list_of_list(f))
+						    print('--------------------------------')
+					</code></pre>
+				</section>
+				<section style="height: 100%;">
+					<h2 style="text-align: left;">Common Mistakes</h2>
+					<pre data-id="code-animation" style="width: 100%; margin: 0; height: 500px"><code class="hljs python" style="font-size: 0.7em;" data-trim data-line-numbers="|19-22">
+						def list_of_list(f):
+						    '''Reads the contents of alkaline_metals.txt and returns it in a list
+						    of lists, with each inner list containing the name, atomic number, and
+						    atomic weight for an element. (Hint: Use string.split.)
+
+						    Args:
+							f: a freshly opened file in the format of the file alkaline_metals.txt
+						    Hint: 
+							Use split() to create a list of each line
+							'''
+						    move_cursor(f)
+						    new_list = []
+						    for line in f:
+							lines = line.split()
+							new_list.append(lines)
+						    return new_list
+
+						with open(filename) as f:
+						    list_of_list(f)
+						    for line in f:
+						        print(line.strip())
+						    print('--------------------------------')
+					</code></pre>
+				</section>
+				<section style="height: 100%;">
+					<h2 style="text-align: left;">Common Mistakes</h2>
+					<pre data-id="code-animation" style="width: 100%; margin: 0; height: 500px"><code class="hljs python" style="font-size: 0.7em;" data-trim data-line-numbers="|19-22">
+						def list_of_list(f):
+						    '''Reads the contents of alkaline_metals.txt and returns it in a list
+						    of lists, with each inner list containing the name, atomic number, and
+						    atomic weight for an element. (Hint: Use string.split.)
+
+						    Args:
+							f: a freshly opened file in the format of the file alkaline_metals.txt
+						    Hint: 
+							Use split() to create a list of each line
+							'''
+						    move_cursor(f)
+						    new_list = []
+						    for line in f:
+							lines = line.split()
+							new_list.append(lines)
+						    return new_list
+
+						with open(filename) as f:
+						    list_of_list(f)
+						    for line if f:
+						        print(line.strip())
+						    print('--------------------------------')
+					</code></pre>
+				</section>
+				<section style="height: 100%;">
+					<h2 style="text-align: left;">Common Mistakes</h2>
+					<pre data-id="code-animation" style="width: 100%; margin: 0; height:fit-content"><code class="hljs python" style="font-size: 0.7em;" data-trim data-line-numbers="|11">
+						def move_cursor(f):
+						    '''Given an open file f, reads past its three-line header.
+
+						    Args:
+							f: a freshly opened file in the format of the file alkaline_metals.txt
+						    '''
+						    NUM_HEADER_LINES = 3
+						    for _ in range(NUM_HEADER_LINES):
+							f.readline()
+						
+						return_value = move_cursor(f)
+					</code></pre>
+				</section>
+				<section style="height: 100%;">
+					<h2 style="text-align: left;">Common Mistakes</h2>
+					<pre data-id="code-animation" style="width: 100%; margin: 0; height: 450px"><code class="hljs python" style="font-size: 0.7em;" data-trim data-line-numbers="|14">
+						def list_of_list(f):
+						    '''Reads the contents of alkaline_metals.txt and returns it in a list
+						    of lists, with each inner list containing the name, atomic number, and
+						    atomic weight for an element. (Hint: Use string.split.)
+
+						    Args:
+							f: a freshly opened file in the format of the file alkaline_metals.txt
+						    Hint: 
+							Use split() to create a list of each line
+							'''
+						    move_cursor(f)
+						    new_list = []
+						    for line in f:
+							lines = line.split(" ")
+							new_list.append(lines)
+						    return new_list
+					</code></pre>
+
+					<pre data-id="code-animation" style="width: 100%; margin: 0;"><code class="hljs python" style="font-size: 0.7em;" data-trim>
+						['metal1':'2.345\n']
+					</code></pre>
+				</section>
+				<section style="height: 100%;">
+					<h2 style="text-align: left;">Common Mistakes</h2>
+					<pre data-id="code-animation" style="width: 100%; margin: 0; height: 500px"><code class="hljs python" style="font-size: 0.7em;" data-trim data-line-numbers="|11|12-14">
+						def list_of_list(f):
+						    '''Reads the contents of alkaline_metals.txt and returns it in a list
+						    of lists, with each inner list containing the name, atomic number, and
+						    atomic weight for an element. (Hint: Use string.split.)
+
+						    Args:
+							f: a freshly opened file in the format of the file alkaline_metals.txt
+						    Hint: 
+							Use split() to create a list of each line
+							'''
+							with open(filename) as f:
+							    f.readline()
+							    f.readline()
+							    f.readline()
+								
+						            new_list = []
+						            for line in f:
+							        lines = line.split()
+							        new_list.append(lines)
+						            return new_list
+
+						with open(filename) as f:
+						    print(list_of_list(f))
+						    print('--------------------------------')
+					</code></pre>
+				</section>
+				<section>
+					<h2>Review</h2>
+					<h4>Working with database</h4>
+					<ul>
+						<li>Python</li>
+						<li>SQL</li>
+					</ul>
+				</section>
+				<section style="height: 100%;">
+					<h2 style="text-align: left;">How to make a connection</h2>
+					<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content"><code class="hljs python" style="font-size: 0.7em;" data-trim data-line-numbers>
+						import sqlite3
+
+						con = sqlite3.connect('name_of_your_database')
+
+						cur = con.cursor()
+
+						cur.execute('SQL commands')
+
+						cur.close()
+
+						con.close()
+					</code></pre>
+				</section>
+				<section style="height: 100%;">
+					<h2 style="text-align: left;">How to make a connection</h2>
+					<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content"><code class="hljs python" style="font-size: 0.7em;" data-trim data-line-numbers="1">
+						import sqlite3
+
+						con = sqlite3.connect('name_of_your_database')
+
+						cur = con.cursor()
+
+						cur.execute('SQL commands')
+
+						cur.close()
+
+						con.close()
+					</code></pre>
+					<div style="text-align: left; margin-top: 30px;">
+						<p>Library</p>
+					</div>
+				</section>
+				<section style="height: 100%;">
+					<h2 style="text-align: left;">How to make a connection</h2>
+					<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content"><code class="hljs python" style="font-size: 0.7em;" data-trim data-line-numbers="3">
+						import sqlite3
+
+						con = sqlite3.connect('name_of_your_database')
+
+						cur = con.cursor()
+
+						cur.execute('SQL commands')
+
+						cur.close()
+
+						con.close()
+					</code></pre>
+					<div style="text-align: left; margin-top: 30px;">
+						<p>Library -> connection</p>
+					</div>
+				</section>
+				<section style="height: 100%;">
+					<h2 style="text-align: left;">How to make a connection</h2>
+					<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content"><code class="hljs python" style="font-size: 0.7em;" data-trim data-line-numbers="5">
+						import sqlite3
+
+						con = sqlite3.connect('name_of_your_database')
+
+						cur = con.cursor()
+
+						cur.execute('SQL commands')
+
+						cur.close()
+
+						con.close()
+					</code></pre>
+					<div style="text-align: left; margin-top: 30px;">
+						<p>Library -> connection -> cursor</p>
+					</div>
+				</section>
+				<section style="height: 100%;">
+					<h2 style="text-align: left;">How to make a connection</h2>
+					<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content"><code class="hljs python" style="font-size: 0.7em;" data-trim data-line-numbers="7">
+						import sqlite3
+
+						con = sqlite3.connect('name_of_your_database')
+
+						cur = con.cursor()
+
+						cur.execute('SQL commands')
+
+						cur.close()
+
+						con.close()
+					</code></pre>
+					<div style="text-align: left; margin-top: 30px;">
+						<p>Library -> connection -> cursor -> execute</p>
+					</div>
+				</section>
+				<section style="height: 100%;">
+					<h2 style="text-align: left;">How to make a connection</h2>
+					<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content"><code class="hljs python" style="font-size: 0.7em;" data-trim data-line-numbers="9">
+						import sqlite3
+
+						con = sqlite3.connect('name_of_your_database')
+
+						cur = con.cursor()
+
+						cur.execute('SQL commands')
+
+						cur.close()
+
+						con.close()
+					</code></pre>
+					<div style="text-align: left; margin-top: 30px;">
+						<p>Library -> connection</p>
+					</div>
+				</section>
+				<section style="height: 100%;">
+					<h2 style="text-align: left;">How to make a connection</h2>
+					<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content"><code class="hljs python" style="font-size: 0.7em;" data-trim data-line-numbers="11">
+						import sqlite3
+
+						con = sqlite3.connect('name_of_your_database')
+
+						cur = con.cursor()
+
+						cur.execute('SQL commands')
+
+						cur.close()
+
+						con.close()
+					</code></pre>
+					<div style="text-align: left; margin-top: 30px;">
+						<p>Library</p>
+					</div>
+				</section>
+				<section>
+					<section style="height: 100%;">
+						<h2 style="text-align: left;">What if ...</h2>
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content"><code class="hljs python" style="font-size: 0.7em;" data-trim data-line-numbers="9,11">
+							import sqlite3
+
+							con = sqlite3.connect('name_of_your_database')
+
+							cur = con.cursor()
+
+							cur.execute('SQL commands')
+
+							con.close()
+
+							cur.close()
+						</code></pre>
+					</section>
+					<section style="height: 100%;">
+						<h2 style="text-align: left;">Error!</h2>
+						<pre data-id="code-animation" style="width: fit-content; margin: 0; height: fit-content"><code class="hljs zsh" style="font-size: 0.7em;" data-trim>
+						    sqlite3.ProgrammingError: Cannot operate on a closed database.
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<h2>SQLite</h2>
+					<ul>
+						<li>Modify</li>
+						<li>Query</li>
+					</ul>
+				</section>
+				<section>
+					<section style="height: 100%;">
+						<h2 style="text-align: left;">Modifing the database</h2>
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content"><code class="hljs sql" style="font-size: 0.7em;" data-trim>
+							DROP TABLE IF EXISTS db_name
+						</code></pre>
+
+						<pre data-id="code-animation" style="width: 100%; margin: 0;"><code class="hljs python" style="font-size: 0.7em;" data-trim>
+							cur.execute('DROP TABLE IF EXISTS PopByRegion')
+						</code></pre>
+
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content; margin-top: 20px"><code class="hljs sql" style="font-size: 0.7em;" data-trim>
+							CREATE TABLE table_name(column_name column_type, column_name column_type, ...)
+						</code></pre>
+
+						<pre data-id="code-animation" style="width: 100%; margin: 0;"><code class="hljs python" style="font-size: 0.7em;" data-trim>
+							cur.execute('CREATE TABLE PopByRegion(Region TEXT, Population INTEGER)')
+						</code></pre>
+
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content; margin-top: 20px"><code class="hljs sql" style="font-size: 0.7em;" data-trim>
+							INSERT INTO table_name VALUES(value, value, ...)
+						</code></pre>
+
+						<pre data-id="code-animation" style="width: 100%; margin: 0;"><code class="hljs python" style="font-size: 0.7em;" data-trim>
+							cur.execute('INSERT INTO PopByRegion VALUES("Central Africa", 330993)')
+							cur.execute('INSERT INTO PopByRegion VALUES (?, ?)', ("Japan", 100562))
+						</code></pre>
+
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content; margin-top: 20px"><code class="hljs sql" style="font-size: 0.7em;" data-trim>
+							UPDATE table_name SET column_name = new_value WHERE some_condition
+						</code></pre>
+
+						<pre data-id="code-animation" style="width: 100%; margin: 0;"><code class="hljs python" style="font-size: 0.7em;" data-trim>
+							cur.execute('UPDATE PopByRegion SET Population = 100600 WHERE Region = "Japan"')
+						</code></pre>
+
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content; margin-top: 20px"><code class="hljs sql" style="font-size: 0.7em;" data-trim>
+							DELETE FROM table_name WHERE some_condition
+						</code></pre>
+
+						<pre data-id="code-animation" style="width: 100%; margin: 0;"><code class="hljs python" style="font-size: 0.7em;" data-trim>
+							cur.execute('DELETE FROM PopByRegion WHERE Region < "L"')
+						</code></pre>
+					</section>
+					<section>
+						<h2>What's more</h2>
+						<pre data-id="code-animation" style="width: fit-content;"><code class="hljs python" data-trim data-line-numbers>
+							con.commit()
+						</code></pre>
+						<div style="display: flex; flex-direction: row; margin: auto;">
+							<pre data-id="code-animation" style="width: fit-content;"><code class="hljs python" data-trim data-line-numbers>
+								cur.close()
+								con.commit()
+								con.close()
+							</code></pre>
+							<pre data-id="code-animation" style="width: fit-content;"><code class="hljs python" data-trim data-line-numbers>
+								con.commit()
+								cur.close()
+								con.close()
+							</code></pre>
+							<pre data-id="code-animation" style="width: fit-content;"><code class="hljs python" data-trim data-line-numbers>
+								cur.close()
+								con.close()
+								con.commit()
+							</code></pre>
+						</div>
+					</section>
+				</section>
+				<section>
+					<section style="height: 100%;">
+						<h2 style="text-align: left;">Querying the database</h2>
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content"><code class="hljs sql" style="font-size: 0.7em;" data-trim>
+							SELECT column_name
+							FROM table_name
+						</code></pre>
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content;"><code class="hljs python" style="font-size: 0.7em;" data-trim>
+							cur.execute('SELECT Region FROM PopByRegion')
+						</code></pre>
+
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content; margin-top: 20px"><code class="hljs sql" style="font-size: 0.7em;" data-trim>
+							SELECT column_name, column_name, ...
+							FROM table_name
+						</code></pre>
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content;"><code class="hljs python" style="font-size: 0.7em;" data-trim>
+							cur.execute('SELECT Region, Population FROM PopByRegion')
+						</code></pre>
+
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content; margin-top: 20px"><code class="hljs sql" style="font-size: 0.7em;" data-trim>
+							SELECT *
+							FROM table_name
+						</code></pre>
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content;"><code class="hljs python" style="font-size: 0.7em;" data-trim>
+							cur.execute('SELECT * FROM PopByRegion')
+						</code></pre>
+					</section>
+					<section style="height: 100%;">
+						<h2 style="text-align: left;">Querying the database</h2>
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content;"><code class="hljs sql" style="font-size: 0.7em;" data-trim>
+							SELECT * / column_name / column_name, column_name, ...
+							FROM table_name
+							ORDER BY column_name
+						</code></pre>
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content;"><code class="hljs python" style="font-size: 0.7em;" data-trim>
+							cur.execute('SELECT Region, Population FROM PopByRegion ORDER BY Region')
+						</code></pre>
+
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content; margin-top: 20px"><code class="hljs sql" style="font-size: 0.7em;" data-trim>
+							SELECT * / column_name / column_name, column_name, ...
+							FROM table_name
+							ORDER BY column_name ASC / DESC
+						</code></pre>
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content;"><code class="hljs python" style="font-size: 0.7em;" data-trim>
+							cur.execute('SELECT Region, Population FROM PopByRegion ORDER BY Region ACS')
+							cur.execute('SELECT Region, Population FROM PopByRegion ORDER BY Region DESC')
+						</code></pre>
+
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content; margin-top: 20px"><code class="hljs sql" style="font-size: 0.7em;" data-trim>
+							SELECT * / column_name / column_name, column_name, ...
+							FROM table_name
+							WHERE conditions
+							ORDER BY column_name, column_name, ...
+						</code></pre>
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content;"><code class="hljs python" style="font-size: 0.7em;" data-trim>
+							cur.execute('SELECT Region, Population FROM PopByRegion ORDER BY Region, Population')
+						</code></pre>
+					</section>
+					<section style="height: 100%;">
+						<h2 style="text-align: left;">Querying the database</h2>
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content;"><code class="hljs sql" style="font-size: 0.7em;" data-trim>
+							SELECT * / column_name / column_name, column_name, ...
+							FROM table_name
+							WHERE condition
+							ORDER BY column_name, column_name, ... none / ASC / DESC
+						</code></pre>
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content;"><code class="hljs python" style="font-size: 0.7em;" data-trim>
+							cur.execute('SELECT Region FROM PopByRegion WHERE Population > 1000000 AND Region < "L")
+						</code></pre>
+
+						<div style="margin-top: 20px; text-align: left; font-size: 0.7em;">
+							<ul>
+								<li>Relational operators</li>
+								<li>Logical operators</li>
+							</ul>
+						</div>
+
+						<pre data-id="code-animation" style="width: 100%; margin: 0; height: fit-content; margin-top: 60px;"><code class="hljs python" style="font-size: 0.7em;" data-trim>
+							cur.execute('SELECT ? FROM PopByRegion WHERE ? > ? AND Region < "L", ("Region", "Population", 100000))
+						</code></pre>
+					</section>
+					<section>
+						<h2>What's more</h2>
+						<pre data-id="code-animation" style="width: fit-content;"><code class="hljs python" data-trim data-line-numbers>
+							cur.fetchone()	# gives you a tuple
+							cur.fetchall()  # gives you a list of tuples
+
+							for row in cur:
+							    print(row)
+						</code></pre>
+					</section>
+				</section>
+				<section>
+					<h2>Lab 9</h2>
+				</section>
+				<section>
+					<h2>Lab 9</h2>
+					<div style="display: flex; flex-direction: row; margin: auto;">
+						<div style="font-size: 0.7em; flex: 1">
+							<ul>
+								<li>create_table_region(db, f)</li>
+									<ul>
+										<li>check lab 7</li>
+									</ul>
+								<li>create_table_country(db, f)</li>
+									<ul>
+										<li>check lab 7</li>
+									</ul>
+								<li>print_tables(db)</li>
+									<ul>
+										<li>print each row line by line</li>
+									</ul>
+								<li>run_query(db, query)</li>
+									<ul>
+										<li>close the connection</li>
+									</ul>
+								<li>query (3 in total)</li>
+									<ul>
+										<li>use region table for the third query</li>
+									</ul>
+								<li>call run_query (for each query)</li>
+							</ul>
+						</div>
+						<div style="font-size: 0.7em; flex: 1">
+							<ul>
+								<li>make the connection and close the connection in each function</li>
+								<li>check code handouts for lecture 9</li>
+								<li>what if a line is too long?</li>
+								<li>how to open a db file?</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section data-markdown>
+					<!-- <h2>Something Fun</h2>
+					<ul>
+						<li>Python GUI App</li>
+						<li>Controlling the Web with Python</li>
+					</ul> -->
+					<script type="text/template">
+						## Something Fun
+
+						[Python GUI App](https://www.youtube.com/watch?v=jE-SpRI3K5g&ab_channel=DevEd)
+
+						[Controlling the Web with Python](https://towardsdatascience.com/controlling-the-web-with-python-6fceb22c5f08)
+					</script>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/zoom/zoom.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealZoom, RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
